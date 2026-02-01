@@ -1,9 +1,11 @@
-name: Full History Release Sync
+name: Incremental Stable Sync
 on:
-  workflow_dispatch: # 手动触发运行
+  schedule:
+    - cron: '0 */23 * * *' # 每 23 小时巡检一次
+  workflow_dispatch:      # 允许手动触发
 
 jobs:
-  clone_all:
+  sync_latest:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -11,52 +13,40 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Clone All Releases
+      - name: Sync New Version
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           UPSTREAM: "lystv/fmapp"
         run: |
-          # 1. 获取原作者所有 Release 的 Tag 列表
-          tags=$(gh api repos/$UPSTREAM/releases --jq '.[].tag_name')
+          # 1. 获取原作者最新的一个 Release
+          latest_release=$(gh api repos/$UPSTREAM/releases/latest)
+          tag=$(echo "$latest_release" | jq -r '.tag_name')
+          
+          # 2. 如果你的仓库里已经有这个 Tag 了，直接收工
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "当前已是最新版 ($tag)，无需同步。"
+            exit 0
+          fi
 
-          for tag in $tags; do
-            echo "-----------------------------------"
-            echo "正在处理版本: $tag ..."
+          # 3. 发现新版，开始“洗白”搬运
+          echo "发现新版 $tag，准备搬运..."
+          assets=$(echo "$latest_release" | jq -r '.assets[] | select(.name | endswith(".apk")) | .browser_download_url')
+          
+          for url in $assets; do
+            orig_name=$(basename "$url")
+            curl -L -o "$orig_name" "$url"
             
-            # 检查自己仓库是否已存在该 Release，存在则跳过
-            if gh release view "$tag" >/dev/null 2>&1; then
-              echo "跳过：$tag 已存在。"
-              continue
+            # 统一命名逻辑
+            if [[ "$orig_name" == *"mobile"* ]]; then
+              target_name="fmapp_mobile.apk"
+            else
+              target_name="fmapp_tv.apk"
             fi
-
-            # 2. 获取该 Release 的详情
-            release_info=$(gh api repos/$UPSTREAM/releases/tags/$tag)
-            title=$(echo "$release_info" | jq -r '.name // "No Title"')
-            body=$(echo "$release_info" | jq -r '.body // "No Description"')
-
-            # 3. 创建 Release 壳子
-            gh release create "$tag" --title "$title" --notes "$body"
-
-            # 4. 下载、洗白重命名、上传
-            assets=$(echo "$release_info" | jq -r '.assets[] | select(.name | endswith(".apk")) | .browser_download_url')
             
-            for url in $assets; do
-              orig_name=$(basename "$url")
-              echo "正在中转文件: $orig_name"
-              curl -L -o "$orig_name" "$url"
-              
-              # 洗白重命名逻辑
-              if [[ "$orig_name" == *"mobile"* ]]; then
-                target_name="fmapp_mobile.apk"
-              else
-                target_name="fmapp_tv.apk"
-              fi
-              
-              # 上传原名和洗白名
-              gh release upload "$tag" "$orig_name" --clobber
-              mv "$orig_name" "$target_name"
-              gh release upload "$tag" "$target_name" --clobber
-              
-              rm -f "$target_name"
-            done
+            mv "$orig_name" "$target_name"
           done
+
+          # 4. 创建发布并上传固定命名的 APK
+          gh release create "$tag" --title "Stable Sync $tag" --notes "自动同步自 $UPSTREAM"
+          [ -f fmapp_tv.apk ] && gh release upload "$tag" fmapp_tv.apk --clobber
+          [ -f fmapp_mobile.apk ] && gh release upload "$tag" fmapp_mobile.apk --clobber
