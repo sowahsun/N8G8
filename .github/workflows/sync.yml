@@ -1,8 +1,8 @@
 name: Incremental Stable Sync
 on:
-  schedule:
-    - cron: '0 */23 * * *' # 每 23 小时巡检一次
-  workflow_dispatch:      # 允许手动触发
+#  schedule:
+#    - cron: '0 */23 * * *' # 已注释：不再每 23 小时巡检一次
+  workflow_dispatch:      # 保持激活：允许手动点击触发
 
 jobs:
   sync_latest:
