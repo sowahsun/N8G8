@@ -1,0 +1,53 @@
+name: Stable Release Sync
+on:
+  schedule:
+    - cron: '0 */23 * * *' # 每23小时自动巡检一次
+  workflow_dispatch:      # 支持手动点击运行
+
+jobs:
+  sync_and_rename:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync and Rename
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPSTREAM: "lystv/fmapp" # 监控的原作者仓库
+        run: |
+          # 1. 获取原作者最新 Release 信息
+          latest_release=$(gh api repos/$UPSTREAM/releases/latest)
+          tag=$(echo "$latest_release" | jq -r '.tag_name')
+          
+          # 2. 检查自己仓库是否已经搬运过这个版本
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "版本 $tag 已存在，跳过同步。"
+            exit 0
+          fi
+
+          # 3. 下载并处理 APK
+          # 这里的逻辑是：不管原名多乱，下载后强行统一命名
+          assets=$(echo "$latest_release" | jq -r '.assets[] | select(.name | endswith(".apk")) | .browser_download_url')
+          
+          for url in $assets; do
+            orig_name=$(basename "$url")
+            curl -L -o "$orig_name" "$url"
+            
+            # 识别逻辑：包含 mobile 字样的改为 mobile，其余默认为 tv
+            if [[ "$orig_name" == *"mobile"* ]]; then
+              target_name="fmapp_mobile.apk"
+            else
+              target_name="fmapp_tv.apk"
+            fi
+            
+            mv "$orig_name" "$target_name"
+          done
+
+          # 4. 创建你自己的 Release 并上传
+          gh release create "$tag" --title "Sync $tag" --notes "自动同步自 $UPSTREAM"
+          # 尝试上传两个文件，如果某个不存在（比如没发手机版）也不会报错
+          [ -f fmapp_tv.apk ] && gh release upload "$tag" fmapp_tv.apk --clobber
+          [ -f fmapp_mobile.apk ] && gh release upload "$tag" fmapp_mobile.apk --clobber
