@@ -48,10 +48,11 @@ jobs:
           fi
           
           echo "🚀 发现 FongMi 新版本: $version"
-          # 提取更新日志并保存到文本（避免换行符导致命令错误）
+          # 提取更新日志并保存到文本（避免换行符导致命令错误），并加上换行准备追加 MD5
           echo "$json_data" | jq -r '.desc // "FongMi 自动同步更新"' > fongmi_notes.txt
+          echo -e "\n### 文件校验 (MD5)" >> fongmi_notes.txt
           
-          # 创建 Release
+          # 创建 Release (此时说明里还没有 MD5)
           gh release create "$my_tag" -R "$TARGET_REPO" --title "FongMi 影视: $version" --notes-file fongmi_notes.txt
           
           # 筛选出所有的 apk 文件进行下载和上传
@@ -60,10 +61,21 @@ jobs:
             orig_name=$(basename "$url")
             echo "⬇️ 正在下载 $orig_name..."
             curl -sL -o "$orig_name" "$url"
+            
+            # --- 新增：计算 MD5 并追加到说明文件 ---
+            echo "🧮 正在计算 $orig_name 的 MD5..."
+            file_md5=$(md5sum "$orig_name" | awk '{print $1}')
+            echo "- \`$orig_name\` MD5: \`$file_md5\`" >> fongmi_notes.txt
+            # ------------------------------------
+            
             echo "⬆️ 正在上传 $orig_name..."
             gh release upload "$my_tag" "$orig_name" --clobber -R "$TARGET_REPO"
             rm -f "$orig_name"
           done
+          
+          # --- 新增：上传完所有 APK 后，更新 Release 页面展示 MD5 ---
+          echo "📝 正在更新 Release 说明展示 MD5..."
+          gh release edit "$my_tag" -R "$TARGET_REPO" --notes-file fongmi_notes.txt
 
   # -------------------------------------------------------------------
   # 任务 2：FMApp 增量同步 (精准筛选 PRO 版，压轴出场)
@@ -100,13 +112,28 @@ jobs:
           echo "🚀 发现 FMApp 新版本: $raw_tag"
           title=$(echo "$latest_rel" | jq -r '.name // "New FM Release"')
           echo "$latest_rel" | jq -r '.body // "Incremental Update"' > release_notes.txt
+          echo -e "\n### 文件校验 (MD5)" >> release_notes.txt
 
+          # 创建 Release (此时说明里还没有 MD5)
           gh release create "$my_tag" -R "$TARGET_REPO" --title "FMApp: $title" --notes-file release_notes.txt
 
           assets=$(echo "$latest_rel" | jq -r '.assets[] | select(.name | endswith(".apk")) | .browser_download_url')
           for url in $assets; do
             orig_name=$(basename "$url")
+            echo "⬇️ 正在下载 $orig_name..."
             curl -L -o "$orig_name" "$url"
+            
+            # --- 新增：计算 MD5 并追加到说明文件 ---
+            echo "🧮 正在计算 $orig_name 的 MD5..."
+            file_md5=$(md5sum "$orig_name" | awk '{print $1}')
+            echo "- \`$orig_name\` MD5: \`$file_md5\`" >> release_notes.txt
+            # ------------------------------------
+            
+            echo "⬆️ 正在上传 $orig_name..."
             gh release upload "$my_tag" "$orig_name" --clobber -R "$TARGET_REPO"
             rm -f "$orig_name"
           done
+          
+          # --- 新增：上传完所有 APK 后，更新 Release 页面展示 MD5 ---
+          echo "📝 正在更新 Release 说明展示 MD5..."
+          gh release edit "$my_tag" -R "$TARGET_REPO" --notes-file release_notes.txt
