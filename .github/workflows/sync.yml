@@ -133,8 +133,8 @@ jobs:
           
           echo "🟠 正在扫描 N8G8 仓库的所有 Release 资产..."
           
-          # 直接请求本地仓库的所有 Release，将其格式化为与 N9G9 同款的数组
-          gh api repos/${{ github.repository }}/releases --jq '
+          # 【核心修复】将 --jq 替换为 | jq，利用原生 jq 的默认美化缩进功能生成结构化 JSON
+          gh api repos/${{ github.repository }}/releases | jq '
             [.[] | {tag: .tag_name, assets: .assets}] | map(select(.assets | length > 0)) 
             | [.[] | .tag as $tag | .assets[] | select(.name | endswith(".apk")) | {
                 name: ("[" + $tag + "] " + .name), 
@@ -147,5 +147,5 @@ jobs:
           
           # 提交到代码库
           git add list.json
-          git commit -m "System: Auto-generate list.json from Releases" || exit 0
+          git commit -m "System: Auto-generate pretty list.json from Releases" || exit 0
           git push origin main
