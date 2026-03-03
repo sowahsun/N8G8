@@ -110,3 +110,42 @@ jobs:
             gh release upload "$my_tag" "$orig_name" --clobber -R "$TARGET_REPO"
             rm -f "$orig_name"
           done
+
+  # -------------------------------------------------------------------
+  # 任务 3：单纯提取 Release 生成 list.json (最终清算)
+  # -------------------------------------------------------------------
+  generate_release_index:
+    needs: fmapp_pro_sync # 确保前两个引擎都跑完之后，再来收网
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 提取 Release 并生成 list.json
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # 初始化 Git
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          
+          echo "🟠 正在扫描 N8G8 仓库的所有 Release 资产..."
+          
+          # 直接请求本地仓库的所有 Release，将其格式化为与 N9G9 同款的数组
+          gh api repos/${{ github.repository }}/releases --jq '
+            [.[] | {tag: .tag_name, assets: .assets}] | map(select(.assets | length > 0)) 
+            | [.[] | .tag as $tag | .assets[] | select(.name | endswith(".apk")) | {
+                name: ("[" + $tag + "] " + .name), 
+                type: "release_asset", 
+                path: ("Releases/" + $tag + "/" + .name), 
+                time: .updated_at,
+                url: .browser_download_url
+              }]
+          ' > list.json
+          
+          # 提交到代码库
+          git add list.json
+          git commit -m "System: Auto-generate list.json from Releases" || exit 0
+          git push origin main
