@@ -1,5 +1,26 @@
 [
   {
+    "name": "[FM-5.0.6-pro] leanback-pro-v8a.apk",
+    "type": "release_asset",
+    "path": "Releases/FM-5.0.6-pro/leanback-pro-v8a.apk",
+    "time": "2026-03-11T10:14:01Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FM-5.0.6-pro/leanback-pro-v8a.apk"
+  },
+  {
+    "name": "[FM-5.0.6-pro] leanback-pro.apk",
+    "type": "release_asset",
+    "path": "Releases/FM-5.0.6-pro/leanback-pro.apk",
+    "time": "2026-03-11T10:14:06Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FM-5.0.6-pro/leanback-pro.apk"
+  },
+  {
+    "name": "[FM-5.0.6-pro] mobile-pro.apk",
+    "type": "release_asset",
+    "path": "Releases/FM-5.0.6-pro/mobile-pro.apk",
+    "time": "2026-03-11T10:14:12Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FM-5.0.6-pro/mobile-pro.apk"
+  },
+  {
     "name": "[FongMi-v5.2.6] leanback-arm64_v8a.apk",
     "type": "release_asset",
     "path": "Releases/FongMi-v5.2.6/leanback-arm64_v8a.apk",
