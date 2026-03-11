@@ -35,6 +35,20 @@
     "url": "https://github.com/sowahsun/N8G8/releases/download/ok-base-3.7.5/mobile-armeabi_v7a.apk"
   },
   {
+    "name": "[OKPRO-3.9.3] okprotv_3.9.3_v7a.apk",
+    "type": "release_asset",
+    "path": "Releases/OKPRO-3.9.3/okprotv_3.9.3_v7a.apk",
+    "time": "2026-03-11T12:06:08Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/OKPRO-3.9.3/okprotv_3.9.3_v7a.apk"
+  },
+  {
+    "name": "[OKPRO-3.9.3] okprotv_3.9.3_v8a.apk",
+    "type": "release_asset",
+    "path": "Releases/OKPRO-3.9.3/okprotv_3.9.3_v8a.apk",
+    "time": "2026-03-11T12:06:13Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/OKPRO-3.9.3/okprotv_3.9.3_v8a.apk"
+  },
+  {
     "name": "[FM-5.0.6-pro] leanback-pro-v8a.apk",
     "type": "release_asset",
     "path": "Releases/FM-5.0.6-pro/leanback-pro-v8a.apk",
