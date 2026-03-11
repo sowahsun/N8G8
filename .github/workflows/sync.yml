@@ -66,10 +66,10 @@ jobs:
           done
 
   # -------------------------------------------------------------------
-  # 任务 2：FMApp 增量同步 (精准筛选 PRO 版，压轴出场)
+  # 任务 2：FMApp 增量同步 (精准筛选 PRO 版)
   # -------------------------------------------------------------------
   fmapp_pro_sync:
-    needs: fongmi_sync  # 【核心修改点】强制等待 fongmi_sync 任务执行完毕
+    needs: fongmi_sync  # 强制等待 fongmi_sync 任务执行完毕
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -112,10 +112,57 @@ jobs:
           done
 
   # -------------------------------------------------------------------
-  # 任务 3：单纯提取 Release 生成 list.json (最终清算)
+  # 任务 3：FMApp Base版 同步 (过滤掉 PRO 版，生成纯净 Base 标签)
+  # -------------------------------------------------------------------
+  fmapp_base_sync:
+    needs: fmapp_pro_sync  # 等待 Pro 版跑完再跑 Base 版
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Instant Sync FMApp Base
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_REPO: "sowahsun/N8G8"
+          SOURCE_REPO: "lystv/fmapp"
+          PREFIX: "ok-base-"
+        run: |
+          echo "🔍 正在获取 $SOURCE_REPO 的最新 BASE 版本..."
+          # 利用 | not 排除带有 pro 的标签，抓取纯净 Base 版
+          latest_rel=$(gh api repos/$SOURCE_REPO/releases | jq -c '[.[] | select((.tag_name | ascii_downcase | contains("pro")) | not)][0]')
+          
+          if [ "$latest_rel" == "null" ] || [ -z "$latest_rel" ]; then
+            echo "❌ 未找到 Base 版本，跳过同步。"
+            exit 0
+          fi
+
+          raw_tag=$(echo "$latest_rel" | jq -r '.tag_name')
+          my_tag="${PREFIX}${raw_tag}"
+          
+          if gh release view "$my_tag" -R "$TARGET_REPO" >/dev/null 2>&1; then
+            echo "✅ FMApp Base 版本 $my_tag 已存在，跳过。"
+            exit 0
+          fi
+
+          echo "🚀 发现 FMApp Base 新版本: $raw_tag"
+          title=$(echo "$latest_rel" | jq -r '.name // "New FM Base Release"')
+          echo "$latest_rel" | jq -r '.body // "Incremental Update"' > release_notes_base.txt
+
+          gh release create "$my_tag" -R "$TARGET_REPO" --title "FMApp Base: $title" --notes-file release_notes_base.txt
+
+          assets=$(echo "$latest_rel" | jq -r '.assets[] | select(.name | endswith(".apk")) | .browser_download_url')
+          for url in $assets; do
+            orig_name=$(basename "$url")
+            curl -L -o "$orig_name" "$url"
+            gh release upload "$my_tag" "$orig_name" --clobber -R "$TARGET_REPO"
+            rm -f "$orig_name"
+          done
+
+  # -------------------------------------------------------------------
+  # 任务 4：单纯提取 Release 生成 list.json (最终清算)
   # -------------------------------------------------------------------
   generate_release_index:
-    needs: fmapp_pro_sync # 确保前两个引擎都跑完之后，再来收网
+    needs: fmapp_base_sync # 确保前三个引擎都跑完之后，再来收网
     runs-on: ubuntu-latest
     permissions:
       contents: write
