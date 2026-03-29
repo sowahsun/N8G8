@@ -1,5 +1,89 @@
 [
   {
+    "name": "[ok-base-5.0.6] hisense.apk",
+    "type": "release_asset",
+    "path": "Releases/ok-base-5.0.6/hisense.apk",
+    "time": "2026-03-29T02:51:58Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/ok-base-5.0.6/hisense.apk"
+  },
+  {
+    "name": "[ok-base-5.0.6] leanback-arm64_v8a.apk",
+    "type": "release_asset",
+    "path": "Releases/ok-base-5.0.6/leanback-arm64_v8a.apk",
+    "time": "2026-03-29T02:52:03Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/ok-base-5.0.6/leanback-arm64_v8a.apk"
+  },
+  {
+    "name": "[ok-base-5.0.6] leanback-armeabi_v7a.apk",
+    "type": "release_asset",
+    "path": "Releases/ok-base-5.0.6/leanback-armeabi_v7a.apk",
+    "time": "2026-03-29T02:52:09Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/ok-base-5.0.6/leanback-armeabi_v7a.apk"
+  },
+  {
+    "name": "[ok-base-5.0.6] mobile-arm64_v8a.apk",
+    "type": "release_asset",
+    "path": "Releases/ok-base-5.0.6/mobile-arm64_v8a.apk",
+    "time": "2026-03-29T02:52:13Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/ok-base-5.0.6/mobile-arm64_v8a.apk"
+  },
+  {
+    "name": "[ok-base-5.0.6] mobile-armeabi_v7a.apk",
+    "type": "release_asset",
+    "path": "Releases/ok-base-5.0.6/mobile-armeabi_v7a.apk",
+    "time": "2026-03-29T02:52:17Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/ok-base-5.0.6/mobile-armeabi_v7a.apk"
+  },
+  {
+    "name": "[FongMi-v5.3.4] leanback-arm64_v8a.apk",
+    "type": "release_asset",
+    "path": "Releases/FongMi-v5.3.4/leanback-arm64_v8a.apk",
+    "time": "2026-03-29T02:51:16Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.3.4/leanback-arm64_v8a.apk"
+  },
+  {
+    "name": "[FongMi-v5.3.4] leanback-armeabi_v7a.apk",
+    "type": "release_asset",
+    "path": "Releases/FongMi-v5.3.4/leanback-armeabi_v7a.apk",
+    "time": "2026-03-29T02:51:18Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.3.4/leanback-armeabi_v7a.apk"
+  },
+  {
+    "name": "[FongMi-v5.3.4] mobile-arm64_v8a.apk",
+    "type": "release_asset",
+    "path": "Releases/FongMi-v5.3.4/mobile-arm64_v8a.apk",
+    "time": "2026-03-29T02:51:21Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.3.4/mobile-arm64_v8a.apk"
+  },
+  {
+    "name": "[FongMi-v5.3.4] mobile-armeabi_v7a.apk",
+    "type": "release_asset",
+    "path": "Releases/FongMi-v5.3.4/mobile-armeabi_v7a.apk",
+    "time": "2026-03-29T02:51:24Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.3.4/mobile-armeabi_v7a.apk"
+  },
+  {
+    "name": "[FM-5.1.2-pro] leanback-pro-v8a.apk",
+    "type": "release_asset",
+    "path": "Releases/FM-5.1.2-pro/leanback-pro-v8a.apk",
+    "time": "2026-03-29T02:51:35Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FM-5.1.2-pro/leanback-pro-v8a.apk"
+  },
+  {
+    "name": "[FM-5.1.2-pro] leanback-pro.apk",
+    "type": "release_asset",
+    "path": "Releases/FM-5.1.2-pro/leanback-pro.apk",
+    "time": "2026-03-29T02:51:41Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FM-5.1.2-pro/leanback-pro.apk"
+  },
+  {
+    "name": "[FM-5.1.2-pro] mobile-pro.apk",
+    "type": "release_asset",
+    "path": "Releases/FM-5.1.2-pro/mobile-pro.apk",
+    "time": "2026-03-29T02:51:47Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FM-5.1.2-pro/mobile-pro.apk"
+  },
+  {
     "name": "[FongMi-v5.3.3] leanback-arm64_v8a.apk",
     "type": "release_asset",
     "path": "Releases/FongMi-v5.3.3/leanback-arm64_v8a.apk",
@@ -719,19 +803,5 @@
     "path": "Releases/3.9.7-pro/mobile-pro.apk",
     "time": "2026-02-01T09:24:31Z",
     "url": "https://github.com/sowahsun/N8G8/releases/download/3.9.7-pro/mobile-pro.apk"
-  },
-  {
-    "name": "[3.6.6] fmapp_mobile.apk",
-    "type": "release_asset",
-    "path": "Releases/3.6.6/fmapp_mobile.apk",
-    "time": "2026-02-01T09:17:14Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/3.6.6/fmapp_mobile.apk"
-  },
-  {
-    "name": "[3.6.6] fmapp_tv.apk",
-    "type": "release_asset",
-    "path": "Releases/3.6.6/fmapp_tv.apk",
-    "time": "2026-02-01T09:17:11Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/3.6.6/fmapp_tv.apk"
   }
 ]
