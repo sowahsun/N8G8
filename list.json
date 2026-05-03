@@ -1,5 +1,33 @@
 [
   {
+    "name": "[FongMi-v5.4.6] leanback-arm64_v8a.apk",
+    "type": "release_asset",
+    "path": "Releases/FongMi-v5.4.6/leanback-arm64_v8a.apk",
+    "time": "2026-05-03T03:40:08Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.4.6/leanback-arm64_v8a.apk"
+  },
+  {
+    "name": "[FongMi-v5.4.6] leanback-armeabi_v7a.apk",
+    "type": "release_asset",
+    "path": "Releases/FongMi-v5.4.6/leanback-armeabi_v7a.apk",
+    "time": "2026-05-03T03:40:11Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.4.6/leanback-armeabi_v7a.apk"
+  },
+  {
+    "name": "[FongMi-v5.4.6] mobile-arm64_v8a.apk",
+    "type": "release_asset",
+    "path": "Releases/FongMi-v5.4.6/mobile-arm64_v8a.apk",
+    "time": "2026-05-03T03:40:14Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.4.6/mobile-arm64_v8a.apk"
+  },
+  {
+    "name": "[FongMi-v5.4.6] mobile-armeabi_v7a.apk",
+    "type": "release_asset",
+    "path": "Releases/FongMi-v5.4.6/mobile-armeabi_v7a.apk",
+    "time": "2026-05-03T03:40:17Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.4.6/mobile-armeabi_v7a.apk"
+  },
+  {
     "name": "[FongMi-v5.4.4] leanback-arm64_v8a.apk",
     "type": "release_asset",
     "path": "Releases/FongMi-v5.4.4/leanback-arm64_v8a.apk",
@@ -810,26 +838,5 @@
     "path": "Releases/ok-base-5.0.1/mobile-armeabi_v7a.apk",
     "time": "2026-03-17T02:33:26Z",
     "url": "https://github.com/sowahsun/N8G8/releases/download/ok-base-5.0.1/mobile-armeabi_v7a.apk"
-  },
-  {
-    "name": "[FM-5.0.8-pro] leanback-pro-v8a.apk",
-    "type": "release_asset",
-    "path": "Releases/FM-5.0.8-pro/leanback-pro-v8a.apk",
-    "time": "2026-03-17T02:32:45Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FM-5.0.8-pro/leanback-pro-v8a.apk"
-  },
-  {
-    "name": "[FM-5.0.8-pro] leanback-pro.apk",
-    "type": "release_asset",
-    "path": "Releases/FM-5.0.8-pro/leanback-pro.apk",
-    "time": "2026-03-17T02:32:50Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FM-5.0.8-pro/leanback-pro.apk"
-  },
-  {
-    "name": "[FM-5.0.8-pro] mobile-pro.apk",
-    "type": "release_asset",
-    "path": "Releases/FM-5.0.8-pro/mobile-pro.apk",
-    "time": "2026-03-17T02:32:58Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FM-5.0.8-pro/mobile-pro.apk"
   }
 ]
