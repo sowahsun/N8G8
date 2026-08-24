@@ -1,4 +1,4 @@
-name: N8G8 - Dual Engine Sync (FM Pro & FongMi)
+name: N8G8 - Dual Engine Sync (FM Pro & FongMi & WebHTV)
 on:
   schedule:
     - cron: '0 0 * * *' # 每天凌晨 00:00 自动巡检
@@ -159,15 +159,60 @@ jobs:
           done
 
   # -------------------------------------------------------------------
-  # 任务 4：单纯提取 Release 生成 list.json (最终清算)
+  # 任务 4：WebHTV 默影视同步 (从鱼大上游直拉，存入 N8G8)
+  # -------------------------------------------------------------------
+  webhtv_sync:
+    needs: fmapp_base_sync # 确保接在 Base 版后面执行
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Sync WebHTV
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_REPO: "sowahsun/N8G8"
+        run: |
+          echo "🔍 正在获取 fish2018/webhtv 的最新版本..."
+          # ⚠️ 放宽限制：扫描 WebHTV 最近 8 个版本
+          gh api repos/fish2018/webhtv/releases | jq -c '.[0:8] | .[]' | while read -r rel_node; do
+            [ -z "$rel_node" ] && continue
+            raw_tag=$(echo "$rel_node" | jq -r '.tag_name')
+            my_tag="WH-${raw_tag}"
+            
+            # 自动化清理空壳
+            apk_count=$(gh release view "$my_tag" -R "$TARGET_REPO" --json assets --jq '[.assets[] | select(.name | endswith(".apk"))] | length' 2>/dev/null || echo "0")
+            if gh release view "$my_tag" -R "$TARGET_REPO" >/dev/null 2>&1 && [ "$apk_count" -eq "0" ]; then
+              echo "🗑️ 检测到空壳 Release: $my_tag，正在删除重置..."
+              gh release delete "$my_tag" -y --cleanup-tag -R "$TARGET_REPO"
+              sleep 2
+            fi
+            
+            # 重新创建并正确上传 APK
+            if ! gh release view "$my_tag" -R "$TARGET_REPO" >/dev/null 2>&1; then
+              echo "🚀 发现 WebHTV 新版本并上传: $my_tag"
+              gh release create "$my_tag" -R "$TARGET_REPO" --title "WebHTV: $raw_tag" --notes "Auto-synced from fish2018/webhtv"
+              assets_urls=$(echo "$rel_node" | jq -r '.assets[] | select(.name | endswith(".apk")) | .browser_download_url')
+              for url in $assets_urls; do
+                fname=$(basename "$url")
+                curl -L -o "$fname" "$url"
+                gh release upload "$my_tag" "$fname" --clobber -R "$TARGET_REPO"
+                rm -f "$fname"
+              done
+            else
+              echo "✅ WebHTV 版本 $my_tag 已存在且完整，跳过。"
+            fi
+          done
+
+  # -------------------------------------------------------------------
+  # 任务 5：单纯提取 Release 生成 list.json (最终清算)
   # -------------------------------------------------------------------
   generate_release_index:
-    needs: fmapp_base_sync # 确保前三个引擎都跑完之后，再来收网
+    needs: webhtv_sync # 确保前四个引擎都跑完之后，再来收网
     runs-on: ubuntu-latest
     permissions:
       contents: write
     env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # 【新增】强制使用 Node.js 24，解决版本弃用警告
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # 强制使用 Node.js 24，解决版本弃用警告
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -182,7 +227,7 @@ jobs:
           
           echo "🟠 正在扫描 N8G8 仓库的所有 Release 资产..."
           
-          # 【核心修复】将 --jq 替换为 | jq，利用原生 jq 的默认美化缩进功能生成结构化 JSON
+          # 将 --jq 替换为 | jq，利用原生 jq 的默认美化缩进功能生成结构化 JSON
           gh api repos/${{ github.repository }}/releases | jq '
             [.[] | {tag: .tag_name, assets: .assets}] | map(select(.assets | length > 0)) 
             | [.[] | .tag as $tag | .assets[] | select(.name | endswith(".apk")) | {
