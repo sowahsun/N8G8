@@ -1,5 +1,33 @@
 [
   {
+    "name": "[WH-v5.6.0-beta-202608281419] leanback-arm64_v8a-beta.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-beta-202608281419/leanback-arm64_v8a-beta.apk",
+    "time": "2026-08-28T10:25:48Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-beta-202608281419/leanback-arm64_v8a-beta.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-beta-202608281419] leanback-armeabi_v7a-beta.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-beta-202608281419/leanback-armeabi_v7a-beta.apk",
+    "time": "2026-08-28T10:25:56Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-beta-202608281419/leanback-armeabi_v7a-beta.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-beta-202608281419] mobile-arm64_v8a-beta.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-beta-202608281419/mobile-arm64_v8a-beta.apk",
+    "time": "2026-08-28T10:26:02Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-beta-202608281419/mobile-arm64_v8a-beta.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-beta-202608281419] mobile-armeabi_v7a-beta.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-beta-202608281419/mobile-armeabi_v7a-beta.apk",
+    "time": "2026-08-28T10:26:09Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-beta-202608281419/mobile-armeabi_v7a-beta.apk"
+  },
+  {
     "name": "[WH-v5.6.0-beta-202608231803] leanback-arm64_v8a-beta.apk",
     "type": "release_asset",
     "path": "Releases/WH-v5.6.0-beta-202608231803/leanback-arm64_v8a-beta.apk",
@@ -817,26 +845,5 @@
     "path": "Releases/ok-base-5.1.5/mobile-armeabi_v7a.apk",
     "time": "2026-04-19T03:23:54Z",
     "url": "https://github.com/sowahsun/N8G8/releases/download/ok-base-5.1.5/mobile-armeabi_v7a.apk"
-  },
-  {
-    "name": "[FM-5.2.0-pro] leanback-pro-v8a.apk",
-    "type": "release_asset",
-    "path": "Releases/FM-5.2.0-pro/leanback-pro-v8a.apk",
-    "time": "2026-04-19T03:23:08Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FM-5.2.0-pro/leanback-pro-v8a.apk"
-  },
-  {
-    "name": "[FM-5.2.0-pro] leanback-pro.apk",
-    "type": "release_asset",
-    "path": "Releases/FM-5.2.0-pro/leanback-pro.apk",
-    "time": "2026-04-19T03:23:19Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FM-5.2.0-pro/leanback-pro.apk"
-  },
-  {
-    "name": "[FM-5.2.0-pro] mobile-pro.apk",
-    "type": "release_asset",
-    "path": "Releases/FM-5.2.0-pro/mobile-pro.apk",
-    "time": "2026-04-19T03:23:29Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FM-5.2.0-pro/mobile-pro.apk"
   }
 ]
