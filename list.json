@@ -1,5 +1,117 @@
 [
   {
+    "name": "[WH-v5.6.0-beta-202608310210] leanback-arm64_v8a-beta.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-beta-202608310210/leanback-arm64_v8a-beta.apk",
+    "time": "2026-08-31T04:41:30Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-beta-202608310210/leanback-arm64_v8a-beta.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-beta-202608310210] leanback-armeabi_v7a-beta.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-beta-202608310210/leanback-armeabi_v7a-beta.apk",
+    "time": "2026-08-31T04:41:34Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-beta-202608310210/leanback-armeabi_v7a-beta.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-beta-202608310210] mobile-arm64_v8a-beta.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-beta-202608310210/mobile-arm64_v8a-beta.apk",
+    "time": "2026-08-31T04:41:39Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-beta-202608310210/mobile-arm64_v8a-beta.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-beta-202608310210] mobile-armeabi_v7a-beta.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-beta-202608310210/mobile-armeabi_v7a-beta.apk",
+    "time": "2026-08-31T04:41:43Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-beta-202608310210/mobile-armeabi_v7a-beta.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-beta-202608310151] leanback-arm64_v8a-beta.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-beta-202608310151/leanback-arm64_v8a-beta.apk",
+    "time": "2026-08-31T04:41:49Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-beta-202608310151/leanback-arm64_v8a-beta.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-beta-202608310151] leanback-armeabi_v7a-beta.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-beta-202608310151/leanback-armeabi_v7a-beta.apk",
+    "time": "2026-08-31T04:41:53Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-beta-202608310151/leanback-armeabi_v7a-beta.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-beta-202608310151] mobile-arm64_v8a-beta.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-beta-202608310151/mobile-arm64_v8a-beta.apk",
+    "time": "2026-08-31T04:41:58Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-beta-202608310151/mobile-arm64_v8a-beta.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-beta-202608310151] mobile-armeabi_v7a-beta.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-beta-202608310151/mobile-armeabi_v7a-beta.apk",
+    "time": "2026-08-31T04:42:02Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-beta-202608310151/mobile-armeabi_v7a-beta.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-202608311100] leanback-arm64_v8a.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-202608311100/leanback-arm64_v8a.apk",
+    "time": "2026-08-31T04:40:50Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-202608311100/leanback-arm64_v8a.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-202608311100] leanback-armeabi_v7a.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-202608311100/leanback-armeabi_v7a.apk",
+    "time": "2026-08-31T04:40:54Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-202608311100/leanback-armeabi_v7a.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-202608311100] mobile-arm64_v8a.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-202608311100/mobile-arm64_v8a.apk",
+    "time": "2026-08-31T04:40:59Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-202608311100/mobile-arm64_v8a.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-202608311100] mobile-armeabi_v7a.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-202608311100/mobile-armeabi_v7a.apk",
+    "time": "2026-08-31T04:41:03Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-202608311100/mobile-armeabi_v7a.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-202608301534] leanback-arm64_v8a.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-202608301534/leanback-arm64_v8a.apk",
+    "time": "2026-08-31T04:41:09Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-202608301534/leanback-arm64_v8a.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-202608301534] leanback-armeabi_v7a.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-202608301534/leanback-armeabi_v7a.apk",
+    "time": "2026-08-31T04:41:13Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-202608301534/leanback-armeabi_v7a.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-202608301534] mobile-arm64_v8a.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-202608301534/mobile-arm64_v8a.apk",
+    "time": "2026-08-31T04:41:18Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-202608301534/mobile-arm64_v8a.apk"
+  },
+  {
+    "name": "[WH-v5.6.0-202608301534] mobile-armeabi_v7a.apk",
+    "type": "release_asset",
+    "path": "Releases/WH-v5.6.0-202608301534/mobile-armeabi_v7a.apk",
+    "time": "2026-08-31T04:41:23Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/WH-v5.6.0-202608301534/mobile-armeabi_v7a.apk"
+  },
+  {
     "name": "[WH-v5.6.0-beta-202608300623] leanback-arm64_v8a-beta.apk",
     "type": "release_asset",
     "path": "Releases/WH-v5.6.0-beta-202608300623/leanback-arm64_v8a-beta.apk",
@@ -726,124 +838,5 @@
     "path": "Releases/FongMi-v5.4.6/mobile-armeabi_v7a.apk",
     "time": "2026-05-03T03:40:17Z",
     "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.4.6/mobile-armeabi_v7a.apk"
-  },
-  {
-    "name": "[FongMi-v5.4.4] leanback-arm64_v8a.apk",
-    "type": "release_asset",
-    "path": "Releases/FongMi-v5.4.4/leanback-arm64_v8a.apk",
-    "time": "2026-05-01T03:48:42Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.4.4/leanback-arm64_v8a.apk"
-  },
-  {
-    "name": "[FongMi-v5.4.4] leanback-armeabi_v7a.apk",
-    "type": "release_asset",
-    "path": "Releases/FongMi-v5.4.4/leanback-armeabi_v7a.apk",
-    "time": "2026-05-01T03:48:46Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.4.4/leanback-armeabi_v7a.apk"
-  },
-  {
-    "name": "[FongMi-v5.4.4] mobile-arm64_v8a.apk",
-    "type": "release_asset",
-    "path": "Releases/FongMi-v5.4.4/mobile-arm64_v8a.apk",
-    "time": "2026-05-01T03:48:51Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.4.4/mobile-arm64_v8a.apk"
-  },
-  {
-    "name": "[FongMi-v5.4.4] mobile-armeabi_v7a.apk",
-    "type": "release_asset",
-    "path": "Releases/FongMi-v5.4.4/mobile-armeabi_v7a.apk",
-    "time": "2026-05-01T03:48:56Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.4.4/mobile-armeabi_v7a.apk"
-  },
-  {
-    "name": "[FongMi-v5.4.3] leanback-arm64_v8a.apk",
-    "type": "release_asset",
-    "path": "Releases/FongMi-v5.4.3/leanback-arm64_v8a.apk",
-    "time": "2026-04-30T03:36:22Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.4.3/leanback-arm64_v8a.apk"
-  },
-  {
-    "name": "[FongMi-v5.4.3] leanback-armeabi_v7a.apk",
-    "type": "release_asset",
-    "path": "Releases/FongMi-v5.4.3/leanback-armeabi_v7a.apk",
-    "time": "2026-04-30T03:36:25Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.4.3/leanback-armeabi_v7a.apk"
-  },
-  {
-    "name": "[FongMi-v5.4.3] mobile-arm64_v8a.apk",
-    "type": "release_asset",
-    "path": "Releases/FongMi-v5.4.3/mobile-arm64_v8a.apk",
-    "time": "2026-04-30T03:36:28Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.4.3/mobile-arm64_v8a.apk"
-  },
-  {
-    "name": "[FongMi-v5.4.3] mobile-armeabi_v7a.apk",
-    "type": "release_asset",
-    "path": "Releases/FongMi-v5.4.3/mobile-armeabi_v7a.apk",
-    "time": "2026-04-30T03:36:31Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.4.3/mobile-armeabi_v7a.apk"
-  },
-  {
-    "name": "[FongMi-v5.4.2] leanback-arm64_v8a.apk",
-    "type": "release_asset",
-    "path": "Releases/FongMi-v5.4.2/leanback-arm64_v8a.apk",
-    "time": "2026-04-21T02:57:40Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.4.2/leanback-arm64_v8a.apk"
-  },
-  {
-    "name": "[FongMi-v5.4.2] leanback-armeabi_v7a.apk",
-    "type": "release_asset",
-    "path": "Releases/FongMi-v5.4.2/leanback-armeabi_v7a.apk",
-    "time": "2026-04-21T02:57:43Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.4.2/leanback-armeabi_v7a.apk"
-  },
-  {
-    "name": "[FongMi-v5.4.2] mobile-arm64_v8a.apk",
-    "type": "release_asset",
-    "path": "Releases/FongMi-v5.4.2/mobile-arm64_v8a.apk",
-    "time": "2026-04-21T02:57:47Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.4.2/mobile-arm64_v8a.apk"
-  },
-  {
-    "name": "[FongMi-v5.4.2] mobile-armeabi_v7a.apk",
-    "type": "release_asset",
-    "path": "Releases/FongMi-v5.4.2/mobile-armeabi_v7a.apk",
-    "time": "2026-04-21T02:57:50Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.4.2/mobile-armeabi_v7a.apk"
-  },
-  {
-    "name": "[ok-base-5.1.6] hisense.apk",
-    "type": "release_asset",
-    "path": "Releases/ok-base-5.1.6/hisense.apk",
-    "time": "2026-04-20T03:26:04Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/ok-base-5.1.6/hisense.apk"
-  },
-  {
-    "name": "[ok-base-5.1.6] leanback-arm64_v8a.apk",
-    "type": "release_asset",
-    "path": "Releases/ok-base-5.1.6/leanback-arm64_v8a.apk",
-    "time": "2026-04-20T03:26:08Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/ok-base-5.1.6/leanback-arm64_v8a.apk"
-  },
-  {
-    "name": "[ok-base-5.1.6] leanback-armeabi_v7a.apk",
-    "type": "release_asset",
-    "path": "Releases/ok-base-5.1.6/leanback-armeabi_v7a.apk",
-    "time": "2026-04-20T03:26:13Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/ok-base-5.1.6/leanback-armeabi_v7a.apk"
-  },
-  {
-    "name": "[ok-base-5.1.6] mobile-arm64_v8a.apk",
-    "type": "release_asset",
-    "path": "Releases/ok-base-5.1.6/mobile-arm64_v8a.apk",
-    "time": "2026-04-20T03:26:16Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/ok-base-5.1.6/mobile-arm64_v8a.apk"
-  },
-  {
-    "name": "[ok-base-5.1.6] mobile-armeabi_v7a.apk",
-    "type": "release_asset",
-    "path": "Releases/ok-base-5.1.6/mobile-armeabi_v7a.apk",
-    "time": "2026-04-20T03:26:20Z",
-    "url": "https://github.com/sowahsun/N8G8/releases/download/ok-base-5.1.6/mobile-armeabi_v7a.apk"
   }
 ]
