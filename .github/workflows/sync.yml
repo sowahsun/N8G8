@@ -172,9 +172,10 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TARGET_REPO: "sowahsun/N8G8"
         run: |
-          echo "🔍 正在获取 fish2018/webhtv 的最新版本..."
-          # ⚠️ 放宽限制：扫描 WebHTV 最近 8 个版本
-          gh api repos/fish2018/webhtv/releases | jq -c '.[0:8] | .[]' | while read -r rel_node; do
+          echo "🔍 正在获取 fish2018/webhtv 的最新正式版本 (自动跳过 Beta 版)..."
+          
+          # ⚠️ 核心拦截：利用 jq 的 select 排除掉 tag_name 包含 beta 的版本，并且过滤掉 GitHub 标记为 prerelease 的版本
+          gh api repos/fish2018/webhtv/releases | jq -c '[.[] | select(.prerelease == false and ((.tag_name | ascii_downcase | contains("beta")) | not))] | .[0:8] | .[]' | while read -r rel_node; do
             [ -z "$rel_node" ] && continue
             raw_tag=$(echo "$rel_node" | jq -r '.tag_name')
             my_tag="WH-${raw_tag}"
@@ -189,8 +190,8 @@ jobs:
             
             # 重新创建并正确上传 APK
             if ! gh release view "$my_tag" -R "$TARGET_REPO" >/dev/null 2>&1; then
-              echo "🚀 发现 WebHTV 新版本并上传: $my_tag"
-              gh release create "$my_tag" -R "$TARGET_REPO" --title "WebHTV: $raw_tag" --notes "Auto-synced from fish2018/webhtv"
+              echo "🚀 发现 WebHTV 新版正式发布并上传: $my_tag"
+              gh release create "$my_tag" -R "$TARGET_REPO" --title "WebHTV: $raw_tag" --notes "Auto-synced stable release from fish2018/webhtv"
               assets_urls=$(echo "$rel_node" | jq -r '.assets[] | select(.name | endswith(".apk")) | .browser_download_url')
               for url in $assets_urls; do
                 fname=$(basename "$url")
@@ -199,7 +200,7 @@ jobs:
                 rm -f "$fname"
               done
             else
-              echo "✅ WebHTV 版本 $my_tag 已存在且完整，跳过。"
+              echo "✅ WebHTV 正式版本 $my_tag 已存在且完整，跳过。"
             fi
           done
 
