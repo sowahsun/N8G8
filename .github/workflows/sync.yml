@@ -1,12 +1,12 @@
 name: N8G8 - Dual Engine Sync (FM Pro & FongMi & WebHTV)
 on:
   schedule:
-    - cron: '0 0 * * *' # 每天凌晨 00:00 自动巡检
-  workflow_dispatch:      # 允许随时在 Actions 页面手动触发
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
   # -------------------------------------------------------------------
-  # 任务 1：FongMi 影视同步 (先跑这个，让它垫底)
+  # 任务 1：FongMi 影视同步（保留原样，不动）
   # -------------------------------------------------------------------
   fongmi_sync:
     runs-on: ubuntu-latest
@@ -20,41 +20,36 @@ jobs:
           PREFIX: "FongMi-v"
         run: |
           echo "🔍 正在读取 FongMi 目录文件..."
-          # 获取 apk 文件夹下的所有文件内容
           contents=$(gh api repos/FongMi/Release/contents/apk?ref=fongmi)
-          
-          # 寻找 leanback.json 以提取版本号
+
           json_url=$(echo "$contents" | jq -r '.[] | select(.name=="leanback.json") | .download_url')
-          
+
           if [ -z "$json_url" ] || [ "$json_url" == "null" ]; then
             echo "❌ 找不到 leanback.json，无法获取版本号。"
             exit 0
           fi
-          
+
           echo "📄 正在解析 leanback.json..."
           json_data=$(curl -sL "$json_url")
           version=$(echo "$json_data" | jq -r '.name')
-          
+
           if [ -z "$version" ] || [ "$version" == "null" ]; then
             echo "❌ 无法解析版本号，跳过同步。"
             exit 0
           fi
-          
+
           my_tag="${PREFIX}${version}"
-          
+
           if gh release view "$my_tag" -R "$TARGET_REPO" >/dev/null 2>&1; then
             echo "✅ FongMi 版本 $my_tag 已存在，跳过。"
             exit 0
           fi
-          
+
           echo "🚀 发现 FongMi 新版本: $version"
-          # 提取更新日志并保存到文本（避免换行符导致命令错误）
           echo "$json_data" | jq -r '.desc // "FongMi 自动同步更新"' > fongmi_notes.txt
-          
-          # 创建 Release
+
           gh release create "$my_tag" -R "$TARGET_REPO" --title "FongMi 影视: $version" --notes-file fongmi_notes.txt
-          
-          # 筛选出所有的 apk 文件进行下载和上传
+
           apk_urls=$(echo "$contents" | jq -r '.[] | select(.name | endswith(".apk")) | .download_url')
           for url in $apk_urls; do
             orig_name=$(basename "$url")
@@ -66,103 +61,55 @@ jobs:
           done
 
   # -------------------------------------------------------------------
-  # 任务 2：FMApp 增量同步 (精准筛选 PRO 版)
+  # 任务 2：FMApp 从 FongMi/Release 增量同步（新增，替代原有的 pro/base 两个任务）
+  #         tag 为纯版本号格式（如 5.6.3），同步后前缀 FM-
+  #         只增不减，已存在的 Release 一律跳过
   # -------------------------------------------------------------------
-  fmapp_pro_sync:
-    needs: fongmi_sync  # 强制等待 fongmi_sync 任务执行完毕
+  fmapp_fongmi_release_sync:
+    needs: fongmi_sync
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - name: Instant Sync FMApp Pro
+      - name: Sync FMApp from FongMi/Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TARGET_REPO: "sowahsun/N8G8"
-          SOURCE_REPO: "lystv/fmapp"
+          SOURCE_REPO: "FongMi/Release"
           PREFIX: "FM-"
         run: |
-          echo "🔍 正在获取 $SOURCE_REPO 的最新 PRO 版本..."
-          latest_rel=$(gh api repos/$SOURCE_REPO/releases | jq -c '[.[] | select(.tag_name | ascii_downcase | contains("pro"))][0]')
-          
-          if [ "$latest_rel" == "null" ] || [ -z "$latest_rel" ]; then
-            echo "❌ 未找到包含 pro 的新版本，跳过同步。"
-            exit 0
-          fi
+          echo "🔍 正在从 $SOURCE_REPO 全量拉取 release..."
+          gh api repos/$SOURCE_REPO/releases --paginate | jq -c '.[]' | while read -r rel_node; do
+            [ -z "$rel_node" ] && continue
+            raw_tag=$(echo "$rel_node" | jq -r '.tag_name')
+            my_tag="${PREFIX}${raw_tag}"
 
-          raw_tag=$(echo "$latest_rel" | jq -r '.tag_name')
-          my_tag="${PREFIX}${raw_tag}"
-          
-          if gh release view "$my_tag" -R "$TARGET_REPO" >/dev/null 2>&1; then
-            echo "✅ FMApp 版本 $my_tag 已存在，跳过。"
-            exit 0
-          fi
+            # 本地已存在就跳过，不覆盖、不删除（只增不减）
+            if gh release view "$my_tag" -R "$TARGET_REPO" >/dev/null 2>&1; then
+              echo "✅ 已存在，跳过: $my_tag"
+              continue
+            fi
 
-          echo "🚀 发现 FMApp 新版本: $raw_tag"
-          title=$(echo "$latest_rel" | jq -r '.name // "New FM Release"')
-          echo "$latest_rel" | jq -r '.body // "Incremental Update"' > release_notes.txt
+            echo "🚀 新增: $my_tag"
+            title=$(echo "$rel_node" | jq -r '.name // "FM Release"')
+            echo "$rel_node" | jq -r '.body // "Auto-synced from FongMi/Release"' > release_notes.txt
 
-          gh release create "$my_tag" -R "$TARGET_REPO" --title "FMApp: $title" --notes-file release_notes.txt
+            gh release create "$my_tag" -R "$TARGET_REPO" --title "FMApp: $title" --notes-file release_notes.txt
 
-          assets=$(echo "$latest_rel" | jq -r '.assets[] | select(.name | endswith(".apk")) | .browser_download_url')
-          for url in $assets; do
-            orig_name=$(basename "$url")
-            curl -L -o "$orig_name" "$url"
-            gh release upload "$my_tag" "$orig_name" --clobber -R "$TARGET_REPO"
-            rm -f "$orig_name"
+            assets=$(echo "$rel_node" | jq -r '.assets[] | select(.name | endswith(".apk")) | .browser_download_url')
+            for url in $assets; do
+              orig_name=$(basename "$url")
+              curl -L -o "$orig_name" "$url"
+              gh release upload "$my_tag" "$orig_name" --clobber -R "$TARGET_REPO"
+              rm -f "$orig_name"
+            done
           done
 
   # -------------------------------------------------------------------
-  # 任务 3：FMApp Base版 同步 (过滤掉 PRO 版，生成纯净 Base 标签)
-  # -------------------------------------------------------------------
-  fmapp_base_sync:
-    needs: fmapp_pro_sync  # 等待 Pro 版跑完再跑 Base 版
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Instant Sync FMApp Base
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TARGET_REPO: "sowahsun/N8G8"
-          SOURCE_REPO: "lystv/fmapp"
-          PREFIX: "ok-base-"
-        run: |
-          echo "🔍 正在获取 $SOURCE_REPO 的最新 BASE 版本..."
-          # 利用 | not 排除带有 pro 的标签，抓取纯净 Base 版
-          latest_rel=$(gh api repos/$SOURCE_REPO/releases | jq -c '[.[] | select((.tag_name | ascii_downcase | contains("pro")) | not)][0]')
-          
-          if [ "$latest_rel" == "null" ] || [ -z "$latest_rel" ]; then
-            echo "❌ 未找到 Base 版本，跳过同步。"
-            exit 0
-          fi
-
-          raw_tag=$(echo "$latest_rel" | jq -r '.tag_name')
-          my_tag="${PREFIX}${raw_tag}"
-          
-          if gh release view "$my_tag" -R "$TARGET_REPO" >/dev/null 2>&1; then
-            echo "✅ FMApp Base 版本 $my_tag 已存在，跳过。"
-            exit 0
-          fi
-
-          echo "🚀 发现 FMApp Base 新版本: $raw_tag"
-          title=$(echo "$latest_rel" | jq -r '.name // "New FM Base Release"')
-          echo "$latest_rel" | jq -r '.body // "Incremental Update"' > release_notes_base.txt
-
-          gh release create "$my_tag" -R "$TARGET_REPO" --title "FMApp Base: $title" --notes-file release_notes_base.txt
-
-          assets=$(echo "$latest_rel" | jq -r '.assets[] | select(.name | endswith(".apk")) | .browser_download_url')
-          for url in $assets; do
-            orig_name=$(basename "$url")
-            curl -L -o "$orig_name" "$url"
-            gh release upload "$my_tag" "$orig_name" --clobber -R "$TARGET_REPO"
-            rm -f "$orig_name"
-          done
-
-  # -------------------------------------------------------------------
-  # 任务 4：WebHTV 默影视同步 (从鱼大上游直拉，存入 N8G8)
+  # 任务 3：WebHTV 默影视同步（保留原样，仅改依赖）
   # -------------------------------------------------------------------
   webhtv_sync:
-    needs: fmapp_base_sync # 确保接在 Base 版后面执行
+    needs: fmapp_fongmi_release_sync
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -173,22 +120,19 @@ jobs:
           TARGET_REPO: "sowahsun/N8G8"
         run: |
           echo "🔍 正在获取 fish2018/webhtv 的最新正式版本 (自动跳过 Beta 版)..."
-          
-          # ⚠️ 核心拦截：利用 jq 的 select 排除掉 tag_name 包含 beta 的版本，并且过滤掉 GitHub 标记为 prerelease 的版本
+
           gh api repos/fish2018/webhtv/releases | jq -c '[.[] | select(.prerelease == false and ((.tag_name | ascii_downcase | contains("beta")) | not))] | .[0:8] | .[]' | while read -r rel_node; do
             [ -z "$rel_node" ] && continue
             raw_tag=$(echo "$rel_node" | jq -r '.tag_name')
             my_tag="WH-${raw_tag}"
-            
-            # 自动化清理空壳
+
             apk_count=$(gh release view "$my_tag" -R "$TARGET_REPO" --json assets --jq '[.assets[] | select(.name | endswith(".apk"))] | length' 2>/dev/null || echo "0")
             if gh release view "$my_tag" -R "$TARGET_REPO" >/dev/null 2>&1 && [ "$apk_count" -eq "0" ]; then
               echo "🗑️ 检测到空壳 Release: $my_tag，正在删除重置..."
               gh release delete "$my_tag" -y --cleanup-tag -R "$TARGET_REPO"
               sleep 2
             fi
-            
-            # 重新创建并正确上传 APK
+
             if ! gh release view "$my_tag" -R "$TARGET_REPO" >/dev/null 2>&1; then
               echo "🚀 发现 WebHTV 新版正式发布并上传: $my_tag"
               gh release create "$my_tag" -R "$TARGET_REPO" --title "WebHTV: $raw_tag" --notes "Auto-synced stable release from fish2018/webhtv"
@@ -205,15 +149,15 @@ jobs:
           done
 
   # -------------------------------------------------------------------
-  # 任务 5：单纯提取 Release 生成 list.json (最终清算)
+  # 任务 4：提取 Release 生成 list.json（保留原样，仅加 --paginate 以拉取全量）
   # -------------------------------------------------------------------
   generate_release_index:
-    needs: webhtv_sync # 确保前四个引擎都跑完之后，再来收网
+    needs: webhtv_sync
     runs-on: ubuntu-latest
     permissions:
       contents: write
     env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # 强制使用 Node.js 24，解决版本弃用警告
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -222,25 +166,23 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # 初始化 Git
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          
+
           echo "🟠 正在扫描 N8G8 仓库的所有 Release 资产..."
-          
-          # 将 --jq 替换为 | jq，利用原生 jq 的默认美化缩进功能生成结构化 JSON
-          gh api repos/${{ github.repository }}/releases | jq '
-            [.[] | {tag: .tag_name, assets: .assets}] | map(select(.assets | length > 0)) 
+
+          # --paginate 确保拉取所有 Release（超过 30 个也不会漏）
+          gh api repos/${{ github.repository }}/releases --paginate | jq '
+            [.[] | {tag: .tag_name, assets: .assets}] | map(select(.assets | length > 0))
             | [.[] | .tag as $tag | .assets[] | select(.name | endswith(".apk")) | {
-                name: ("[" + $tag + "] " + .name), 
-                type: "release_asset", 
-                path: ("Releases/" + $tag + "/" + .name), 
+                name: ("[" + $tag + "] " + .name),
+                type: "release_asset",
+                path: ("Releases/" + $tag + "/" + .name),
                 time: .updated_at,
                 url: .browser_download_url
               }]
           ' > list.json
-          
-          # 提交到代码库
+
           git add list.json
           git commit -m "System: Auto-generate pretty list.json from Releases" || exit 0
           git push origin main
