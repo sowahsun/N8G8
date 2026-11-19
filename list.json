@@ -1,5 +1,33 @@
 [
   {
+    "name": "[FongMi-v5.8.9] leanback-arm64_v8a.apk",
+    "type": "release_asset",
+    "path": "Releases/FongMi-v5.8.9/leanback-arm64_v8a.apk",
+    "time": "2026-11-19T02:15:39Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.8.9/leanback-arm64_v8a.apk"
+  },
+  {
+    "name": "[FongMi-v5.8.9] leanback-armeabi_v7a.apk",
+    "type": "release_asset",
+    "path": "Releases/FongMi-v5.8.9/leanback-armeabi_v7a.apk",
+    "time": "2026-11-19T02:15:44Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.8.9/leanback-armeabi_v7a.apk"
+  },
+  {
+    "name": "[FongMi-v5.8.9] mobile-arm64_v8a.apk",
+    "type": "release_asset",
+    "path": "Releases/FongMi-v5.8.9/mobile-arm64_v8a.apk",
+    "time": "2026-11-19T02:15:51Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.8.9/mobile-arm64_v8a.apk"
+  },
+  {
+    "name": "[FongMi-v5.8.9] mobile-armeabi_v7a.apk",
+    "type": "release_asset",
+    "path": "Releases/FongMi-v5.8.9/mobile-armeabi_v7a.apk",
+    "time": "2026-11-19T02:15:55Z",
+    "url": "https://github.com/sowahsun/N8G8/releases/download/FongMi-v5.8.9/mobile-armeabi_v7a.apk"
+  },
+  {
     "name": "[FongMi-v5.8.8] leanback-arm64_v8a.apk",
     "type": "release_asset",
     "path": "Releases/FongMi-v5.8.8/leanback-arm64_v8a.apk",
